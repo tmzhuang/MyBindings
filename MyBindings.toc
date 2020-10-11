@@ -1,0 +1,7 @@
+﻿## Title: MyBindings
+## Notes: Autoloads my bindings and macros
+## Author: Kapitol
+## Interface: 80300
+## Version: 0.1
+
+main.lua
