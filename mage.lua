@@ -97,8 +97,8 @@ function MB.get_mage_data()
 /use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
 ]]
     macros['z'] = [[
-/use [spec:1] Arcane Barrage
-/use [spec:2, nomod] Ice Lance; [spec:2, mod:shift, @focus] Ice Lance
+/use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
+/use [spec:2,nomod] Ice Lance; [spec:2,mod:shift,@focus] Ice Lance; [spec:2,mod:alt] Fire Blast
 /use [spec:3] Fire Blast
 /use [mod:alt] Fire Blast
     ]]

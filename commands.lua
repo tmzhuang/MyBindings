@@ -5,17 +5,18 @@ local function get_macro_name(key)
 end
 
 local function create_or_update_macro(name, text)
-    local _, index = GetMacroInfo(name)
-    if index == 0 then
-        index = CreateMacro(name, "INV_MISC_QUESTIONMARK", text)
+    local existing_name = GetMacroInfo(name)
+    if existing_name then
+        index = EditMacro(existing_name, nil, nil, text)
     else
-        EditMacro(index, nil, nil, text)
+        index = CreateMacro(name, "INV_MISC_QUESTIONMARK", text)
     end
     return index
 end
 
 local function sync_macros(macros)
     for key, text in pairs(macros) do
+        local name = get_macro_name(key)
         local index = create_or_update_macro(name, text)
     end
 end
@@ -31,7 +32,6 @@ local function bind_keys(spells, items, macros)
     
     for key, text in pairs(macros) do
         local name = get_macro_name(key)
-        local index = create_or_update_macro(name, text)
         local ok = SetBindingMacro(string.upper(key), name)
     end
 end
