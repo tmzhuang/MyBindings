@@ -51,7 +51,7 @@ function MB.run_command(argstr)
     bind_keys(spells, items, macros)
 
     -- Bind LiteMount macro
-    local ok = SetBindingMacro('B', 'LiteMount')
+    --local ok = SetBindingMacro('B', 'LiteMount')
     SaveBindings(1)
     SaveBindings(2)
     print('Done.')

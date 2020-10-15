@@ -75,6 +75,10 @@ function MB.get_mage_data()
 /use [spec:2] Flamestrike
 /use [spec:3,nomod] Blizzard; [spec:3,mod:shift] Ring of Frost
     ]]
+    macros['alt-s'] = [[
+/dismount
+/use Black War Bear
+    ]]
     macros['alt-d'] = [[
 /use [spec:1, nocombat] Conjure Mana Gem
 /use [spec:1, combat] Mana Gem
