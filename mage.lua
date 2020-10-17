@@ -36,6 +36,8 @@ function MB.get_mage_data()
 /use item:80618
 /use item:113509
     ]]
+    SetBinding('SHIFT-V')
+    SetBinding('CTRL-V')
     macros['v'] = [[
 /use [nomod] Counterspell; [mod:shift, @focus] Counterspell
     ]]
@@ -76,8 +78,7 @@ function MB.get_mage_data()
 /use [spec:3,nomod] Blizzard; [spec:3,mod:shift] Ring of Frost
     ]]
     macros['alt-s'] = [[
-/dismount
-/use Black War Bear
+/run C_MountJournal.SummonByID(0)
     ]]
     macros['alt-d'] = [[
 /use [spec:1, nocombat] Conjure Mana Gem
@@ -141,7 +142,7 @@ function MB.get_mage_data()
     ]]
 -- thumb 2
     macros['numpad2'] = [[
-/focus [@mouseover]
+/focus [@mouseover,exists,harm]; [@target]
 /run SetRaidTarget("focus",7)
     ]]
     macros['shift-down'] = [[
@@ -163,6 +164,7 @@ function MB.get_mage_data()
 /use [mod:shift] Frost Ward
 /use [mod:alt] Frost Ward
     ]]
+    print('Sent mage data')
     return spells, items, macros
 end
 
