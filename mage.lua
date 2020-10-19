@@ -101,7 +101,6 @@ function MB.get_mage_data()
 ]]
     macros['z'] = [[
 /use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
-/use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
 /use [spec:2,nomod] Ice Lance; [spec:2,mod:shift,@focus] Ice Lance; [spec:2,mod:alt] Fire Blast
 /use [spec:3] Fire Blast
 /use [nospec] Fire Blast
@@ -138,7 +137,7 @@ function MB.get_mage_data()
     ]]
 -- thumb 1
     macros['numpad1'] = [[
-/say hi
+/print ('Pressed thumb 1')
     ]]
 -- thumb 2
     macros['numpad2'] = [[
