@@ -14,9 +14,15 @@ local function create_or_update_macro(name, text)
     return index
 end
 
-local function sync_macros(macros)
+local function sync_macros(macros, mode)
+    mode = mode or 1
     for key, text in pairs(macros) do
-        local name = get_macro_name(key)
+        local name = ''
+        if mode == 1 then
+            name = get_macro_name(key)
+        else
+            name = key
+        end
         local index = create_or_update_macro(name, text)
     end
 end
@@ -43,14 +49,14 @@ function MB.run_command(argstr)
     end
 
     local args = { strsplit(" ", argstr) }
-    print('Reloading bindings...')
-
     if args[1] == 'mage' then
-        local spells, items, macros = MB.get_mage_data()
-        sync_macros(macros)
+        local spells, items, macros, unbound_macros = MB.get_mage_data()
+        sync_macros(macros, 1)
+        sync_macros(unbound_macros, 2)
         bind_keys(spells, items, macros)
     elseif args[1] == 'stats' then
-        print(string.format("gear_intellect=%d", UnitStat('player', 4)))
+        local _, _, int = UnitStat('player', 4)
+        print(string.format("gear_intellect=%d", int))
         print(string.format("gear_crit_rating=%d", GetCombatRating(9)))
         print(string.format("gear_haste_rating=%d", GetCombatRating(18)))
         print(string.format("gear_mastery_rating=%d", GetCombatRating(26)))
@@ -61,5 +67,4 @@ function MB.run_command(argstr)
 
     SaveBindings(1)
     SaveBindings(2)
-    print('Done.')
 end

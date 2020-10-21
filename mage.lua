@@ -1,9 +1,25 @@
 local _, MB = ...
 
+function delete_item(search)
+    if not InCombatLockdown() then
+        for bag = 0,4 do
+            for slot = 1,GetContainerNumSlots(bag) do
+                local item = GetContainerItemLink(bag,slot)
+                if item and item:find(search) then
+                    print('Deleting', search)
+                    PickupContainerItem(bag, slot)
+                    DeleteCursorItem()
+                end
+            end
+        end
+    end
+end
+
 function MB.get_mage_data()
     local spells = {}
     local items = {}
     local macros = {}
+    local unbound_macros = {}
     spells['2'] = 'Time Warp'
     spells['3'] = 'Mirror Image'
     spells['4'] = 'Alter Time'
@@ -20,10 +36,8 @@ function MB.get_mage_data()
 
     macros['5'] = [[
 /use [nomod] Polymorph; [mod:shift, @focus] Polymorph
-    ]]
+]]
     macros['='] = [[
-#show Conjure Refreshment
-#showtooltip Conjure Refreshment
 /use item:34062
 /use item:43518
 /use item:43523
@@ -47,7 +61,6 @@ function MB.get_mage_data()
 /use [spec:3] Invisibility
     ]]
     macros['shift-w'] = [[
-#showtooltip Summon Water Elemental
 /cast [nopet] Summon Water Elemental
 /stop macro [nopet]
 /petpassive
@@ -80,11 +93,12 @@ function MB.get_mage_data()
     macros['alt-s'] = [[
 /run C_MountJournal.SummonByID(0)
     ]]
+    --/run if not InCombatLockdown()then for b=0,4 do for s=1,36 do n=GetContainerItemLink(b,s)print(n, n=='Mana Gem')DeleteCursorItem()end;end;end;end;
     macros['alt-d'] = [[
-/use [spec:1, nocombat] Conjure Mana Gem
-/use [spec:1, combat] Mana Gem
-/use [spec:2] Meteor
-/use [spec:3] Comet Storm
+/run delete_item("Mana Gem")
+/use [spec:1,nocombat]Conjure Mana Gem;Mana Gem
+/use [spec:2]Meteor
+/use [spec:3]Comet Storm
     ]]
     macros['shift-f'] = [[
 /use [spec:1] Evocation
@@ -98,7 +112,7 @@ function MB.get_mage_data()
 /dismount
 /stopcasting
 /use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
-]]
+    ]]
     macros['z'] = [[
 /use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
 /use [spec:2,nomod] Ice Lance; [spec:2,mod:shift,@focus] Ice Lance; [spec:2,mod:alt] Fire Blast
@@ -110,7 +124,7 @@ function MB.get_mage_data()
 /use [spec:2] Scorch
 /use [spec:3] Cone of Cold
     ]]
--- middle mouse
+    -- middle mouse
     macros['numpad3'] = [[
 /use [spec:1] Arcane Power
 /use [spec:2] Combustion
@@ -131,31 +145,31 @@ function MB.get_mage_data()
 /use Shadowform
 /use War Stomp
     ]]
--- dpi down
+    -- dpi down
     macros['numpad4'] = [[
-/use [@player] Arcane Intellect
+/use [@mouseover,help] Arcane Intellect; [@player] Arcane Intellect
     ]]
--- thumb 1
+    -- thumb 1
     macros['numpad1'] = [[
 /print ('Pressed thumb 1')
     ]]
--- thumb 2
+    -- thumb 2
     macros['numpad2'] = [[
-/focus [@mouseover,exists,harm]; [@target]
-/run SetRaidTarget("focus",7)
+/focus [@mouseover,harm,nodead]; [@target,harm,nodead]
+#/run SetRaidTarget("focus",7)
     ]]
     macros['shift-down'] = [[
 /target focus
 /targetlasttarget
 /focus
 /targetlasttarget
-/run SetRaidTarget("target",8)
-/run SetRaidTarget("focus",7)
+#/run SetRaidTarget("target",8)
+#/run SetRaidTarget("focus",7)
     ]]
     macros['alt-numpad2'] = [[
 /clearfocus
     ]]
--- dpi up
+    -- dpi up
     macros['numpad5'] = [[
 /use [spec:1, nomod] Prismatic Barrier
 /use [spec:2, nomod] Blazing Barrier
@@ -163,8 +177,8 @@ function MB.get_mage_data()
 /use [mod:shift] Frost Ward
 /use [mod:alt] Frost Ward
     ]]
-    print('Sent mage data')
-    return spells, items, macros
+    print('Rebound mage keys.')
+    return spells, items, macros, unbound_macros
 end
 
 -- thumb1: 1/end
@@ -172,20 +186,20 @@ end
 -- middle: 3/pagedown
 -- dpi down: 4/left
 -- dpi up: 6/right
-    --# Fire
-    --Living Bomb
+--# Fire
+--Living Bomb
 
-    --# Frost
-    --Ice Floes
-    --Ice Nova
+--# Frost
+--Ice Floes
+--Ice Nova
 
-    --# Other macros/items
-    --Trinket
-    --Potion
-    --Portals
-    --Mount
+--# Other macros/items
+--Trinket
+--Potion
+--Portals
+--Mount
 
-    --# Baseline
-    --[Alter Time]
-    --R[Covenant signature]
-    --[Covenant spell]
+--# Baseline
+--[Alter Time]
+--R[Covenant signature]
+--[Covenant spell]
