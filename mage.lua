@@ -73,7 +73,6 @@ function MB.get_mage_data()
 /use [spec:1,nomod] Arcane Blast; [spec:1,mod:shift] Frostbolt
 /use [spec:2,nomod] Fireball; [spec:1,mod:shift] Frostbolt
 /use [spec:3,nomod] Frostbolt; [spec:3,mod:alt] Glacial Spike; [spec:3,mod:shift] Ebonbolt
-/use [nospec] Frostbolt
     ]]
     macros['e'] = [[
 /use [spec:1] Touch of the Magi
@@ -117,7 +116,6 @@ function MB.get_mage_data()
 /use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
 /use [spec:2,nomod] Ice Lance; [spec:2,mod:shift,@focus] Ice Lance; [spec:2,mod:alt] Fire Blast
 /use [spec:3] Fire Blast
-/use [nospec] Fire Blast
     ]]
     macros['c'] = [[
 /use [spec:1,nomod] Slow; [spec:1;mod:shift,@focus] Slow

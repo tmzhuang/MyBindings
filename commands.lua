@@ -49,8 +49,14 @@ function MB.run_command(argstr)
     end
 
     local args = { strsplit(" ", argstr) }
-    if args[1] == 'mage' then
-        local spells, items, macros, unbound_macros = MB.get_mage_data()
+    local bindset = {mage=true, mage_noob=true}
+    if bindset[args[1]] then
+        local spells, items, macros, unbound_macros = {}, {}, {}, {}
+        if args[1] == 'mage' then
+            spells, items, macros, unbound_macros = MB.get_mage_data()
+        elseif args[1] == 'mage_noob' then
+            spells, items, macros, unbound_macros = MB.get_mage_noob_data()
+        end
         sync_macros(macros, 1)
         sync_macros(unbound_macros, 2)
         bind_keys(spells, items, macros)
