@@ -5,7 +5,6 @@
 ## Version: 0.1
 
 print.lua
-mage_noob.lua
 mage.lua
 commands.lua
 main.lua

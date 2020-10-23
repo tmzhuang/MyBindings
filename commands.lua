@@ -60,6 +60,8 @@ function MB.run_command(argstr)
         sync_macros(macros, 1)
         sync_macros(unbound_macros, 2)
         bind_keys(spells, items, macros)
+    elseif args[1] == 'cds' then
+        MB.mage_cds()
     elseif args[1] == 'stats' then
         local _, _, int = UnitStat('player', 4)
         print(string.format("gear_intellect=%d", int))

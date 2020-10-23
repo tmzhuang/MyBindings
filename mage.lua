@@ -149,7 +149,7 @@ function MB.get_mage_data()
     ]]
     -- thumb 1
     macros['numpad1'] = [[
-/print ('Pressed thumb 1')
+/use Alter Time
     ]]
     -- thumb 2
     macros['numpad2'] = [[
@@ -201,3 +201,154 @@ end
 --[Alter Time]
 --R[Covenant signature]
 --[Covenant spell]
+function MB.get_mage_noob_data()
+    local spells = {}
+    local items = {}
+    local macros = {}
+    local unbound_macros = {}
+    spells['shift-='] = 'Conjure Refreshment'
+    spells['w'] = 'Frost Nova'
+    spells['r'] = 'Blink'
+    spells['a'] = 'Arcane Explosion'
+    spells['g'] = 'Frostbolt'
+    spells['z'] = 'Fire Blast'
+    macros['5'] = [[
+/use [nomod] Polymorph; [mod:shift, @focus] Polymorph
+]]
+    macros['='] = [[
+/use item:34062
+/use item:43518
+/use item:43523
+/use item:65499
+/use item:65500
+/use item:65515
+/use item:65516
+/use item:65517
+/use item:80610
+/use item:80618
+/use item:113509
+    ]]
+    SetBinding('SHIFT-V')
+    SetBinding('CTRL-V')
+    macros['v'] = [[
+/use [nomod] Counterspell; [mod:shift, @focus] Counterspell
+    ]]
+    macros['j'] = [[
+/dismount
+/stopcasting
+/use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
+    ]]
+    macros['shift-pagedown'] = [[
+/use Every Man for Himself
+/use Stoneform
+/use Quaking Palm
+/use Arcane Torrent
+/use Gift of the Naaru
+/use Escape Artist
+/use Blood Fury
+/use Will of the Forsaken
+/use Berserking
+/use Darkflight
+/use Rocket Jump
+/use Shadowform
+/use War Stomp
+    ]]
+    -- dpi down
+    macros['numpad4'] = [[
+/use [@mouseover,help] Arcane Intellect; [@player] Arcane Intellect
+    ]]
+    -- thumb 2
+    macros['numpad2'] = [[
+/focus [@mouseover,harm,nodead]; [@target,harm,nodead]
+#/run SetRaidTarget("focus",7)
+    ]]
+    macros['shift-down'] = [[
+/target focus
+/targetlasttarget
+/focus
+/targetlasttarget
+#/run SetRaidTarget("target",8)
+#/run SetRaidTarget("focus",7)
+    ]]
+    macros['alt-numpad2'] = [[
+/clearfocus
+    ]]
+    print('Rebound mage_noob keys.')
+    return spells, items, macros, unbound_macros
+end
+
+local function get_cd_table(tab)
+    local cd_table = {}
+    local tabname, tabicon, offset, num, _, _ = GetSpellTabInfo(tab)
+    local i = 1
+    for spellnum = offset + 1, offset + num do
+        --local realspellnum = GetKnownSlotFromHighestRankSlot(spellnum)
+        local spellname, spellSubName = GetSpellBookItemName(spellnum, BOOKTYPE_SPELL)
+        local _,_,_,_,_,_, spellid = GetSpellInfo(spellname)
+        local cd, gcd = GetSpellBaseCooldown(spellname)
+        if cd and cd > 0 then
+            cd_table[spellid] = cd
+        end
+    end
+    return cd_table
+end
+
+local function update_table(table1, table2)
+    -- updates values from table with values from table2
+    new_table = {}
+    for k,v in pairs(table1) do
+        new_table[k] = v
+    end
+    for k,v in pairs(table2) do
+        new_table[k] = v
+    end
+    return new_table
+end
+
+local function place_spells(cds)
+    local slot = 1
+    local sorted = {}
+    local values_list = {}
+    local values_set = {}
+    for spellid, cd in pairs(cds) do
+        if not values_set[cd] then
+            table.insert(values_list, cd)
+            values_set[cd] = true
+        end
+        spellids = sorted[cd]
+        if spellids then
+            table.insert(spellids, spellid)
+        else
+            sorted[cd] = {spellid}
+        end
+    end
+    table.sort(values_list)
+    for i = #values_list, 1, -1 do
+        cd = values_list[i]
+        local spellids = sorted[cd]
+        for _, spellid in pairs(spellids) do
+            print(GetSpellLink(spellid), spellid, cd)
+            PickupSpell(spellid)
+            PlaceAction(slot)
+            slot = slot + 1
+        end
+    end
+end
+
+
+function MB.mage_cds()
+    book2_cds = get_cd_table(2)
+    book3_cds = get_cd_table(3)
+    cds = update_table(book2_cds, book3_cds)
+    --for spellid in pairs(cds) do
+        --print(GetSpellLink(spellid), spellid)
+    --end
+    place_spells(cds)
+    --print(spellname)
+    --PickupSpell(spellid)
+    --print(i)
+    --PlaceAction(i)
+    --i = i + 1
+    --ClearCursor()
+    --print(a, b)
+end
