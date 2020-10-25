@@ -352,3 +352,46 @@ function MB.mage_cds()
     --ClearCursor()
     --print(a, b)
 end
+
+local function get_stats_string()
+    s = ''
+    local _, _, int = UnitStat('player', 4)
+    return (string.format("gear_intellect=%d", int) .. '\n'
+    .. string.format("gear_crit_rating=%d", GetCombatRating(9)) .. '\n'
+    .. string.format("gear_haste_rating=%d", GetCombatRating(18)) .. '\n'
+    .. string.format("gear_mastery_rating=%d", GetCombatRating(26)) .. '\n'
+    .. string.format("gear_versatility_rating=%d", GetCombatRating(29)))
+end
+
+function MB.mage_stats()
+	local frame = CreateFrame("Frame", "MyStatsFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+	table.insert(UISpecialFrames, "MyStatsFrame")
+	frame:SetBackdrop(PaneBackdrop)
+	frame:SetBackdropColor(0,0,0,1)
+	frame:SetWidth(500)
+	frame:SetHeight(400)
+	frame:SetPoint("CENTER", UIParent, "CENTER")
+	frame:Hide()
+	frame:SetFrameStrata("DIALOG")
+
+	local scrollArea = CreateFrame("ScrollFrame", "MyStatsScroll", frame, "UIPanelScrollFrameTemplate")
+	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
+	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
+
+	local editBox = CreateFrame("EditBox", nil, frame)
+	editBox:SetMultiLine(true)
+	editBox:SetMaxLetters(99999)
+	editBox:EnableMouse(true)
+	editBox:SetAutoFocus(false)
+	editBox:SetFontObject(ChatFontNormal)
+	editBox:SetWidth(400)
+	editBox:SetHeight(270)
+	editBox:SetScript("OnEscapePressed", function() frame:Hide() end)
+	editBox:SetText(get_stats_string())
+
+	scrollArea:SetScrollChild(editBox)
+
+	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+	frame:Show()
+end

@@ -62,13 +62,10 @@ function MB.run_command(argstr)
         bind_keys(spells, items, macros)
     elseif args[1] == 'cds' then
         MB.mage_cds()
+    elseif args[1] == 'test' then
+        MB.test()
     elseif args[1] == 'stats' then
-        local _, _, int = UnitStat('player', 4)
-        print(string.format("gear_intellect=%d", int))
-        print(string.format("gear_crit_rating=%d", GetCombatRating(9)))
-        print(string.format("gear_haste_rating=%d", GetCombatRating(18)))
-        print(string.format("gear_mastery_rating=%d", GetCombatRating(26)))
-        print(string.format("gear_versatility_rating=%d", GetCombatRating(29)))
+        MB.mage_stats()
     else
         print('Nothing to be done.')
     end
