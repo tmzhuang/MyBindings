@@ -5,6 +5,21 @@ function MB.get_spellid(spellname)
     return spellid
 end
 
+function MB.pickup_item(search)
+    if not InCombatLockdown() then
+        for bag = 0,4 do
+            for slot = 1,GetContainerNumSlots(bag) do
+                local item = GetContainerItemLink(bag,slot)
+                if item and item:find(search) then
+                    PickupContainerItem(bag, slot)
+                    return bag, slot
+                end
+            end
+        end
+    end
+    return nil, nil
+end
+
 function MB.get_cd_table(tab)
     -- get table that maps spellid:cd
     local cd_table = {}
@@ -34,8 +49,25 @@ function MB.update_table(table1, table2)
     return new_table
 end
 
-function MB.place_spells(cds)
+function MB.place_action(type_, id, slot)
+    local picked_up = true
+
+    if type_ == 'spell' then
+        PickupSpell(id)
+    elseif type_ == 'item' then
+        local bag, container_slot = MB.pickup_item(id)
+    elseif type_ == 'inv' then
+        PickupInventoryItem(id)
+    else
+        picked_up = false
+    end
+
+    if picked_up then PlaceAction(slot) end
+end
+
+function MB.place_spells(cds, bar, reverse)
     local slot = 1
+    if bar then slot = 12 * bar end
     local sorted = {}
     local values_list = {}
     local values_set = {}
@@ -56,10 +88,16 @@ function MB.place_spells(cds)
         cd = values_list[i]
         local spellids = sorted[cd]
         for _, spellid in pairs(spellids) do
-            print(GetSpellLink(spellid), spellid, cd)
-            PickupSpell(spellid)
-            PlaceAction(slot)
-            slot = slot + 1
+            MB.place_action('spell', spellid, slot)
+            if reverse then
+                slot = slot - 1
+            else
+                slot = slot + 1
+            end
         end
     end
 end
+
+MB.racial_spell = {
+    goblin=69041
+}

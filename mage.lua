@@ -126,6 +126,8 @@ function MB.get_mage_data()
 /use [spec:1] Arcane Power
 /use [spec:2] Combustion
 /use [spec:3] Icy Veins
+# trinket2
+/use 14
     ]]
     macros['shift-pagedown'] = [[
 /use Every Man for Himself
@@ -284,6 +286,11 @@ function MB.mage_cds()
     cds[MB.get_spellid('Frost Nova')] = 30000
     cds[MB.get_spellid('Blink')] = 15000
     cds[MB.get_spellid('Fire Blast')] = 11000
-    cds[MB.get_spellid('Conjure Refreshment')] = 0
+    cds[MB.get_spellid('Conjure Refreshment')] = nil
     MB.place_spells(cds)
+    -- mana gem
+    MB.place_action('item', 36799, 36)
+    local race = string.lower(UnitRace('player'))
+    MB.place_action('spell', MB.racial_spell[race], 35)
+    MB.place_action('inv', 14, 34)
 end
