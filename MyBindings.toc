@@ -4,7 +4,9 @@
 ## Interface: 90001
 ## Version: 0.1
 
+utils.lua
 print.lua
 mage.lua
+test.lua
 commands.lua
 main.lua

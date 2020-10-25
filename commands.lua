@@ -64,8 +64,6 @@ function MB.run_command(argstr)
         MB.mage_cds()
     elseif args[1] == 'test' then
         MB.test()
-    elseif args[1] == 'stats' then
-        MB.mage_stats()
     else
         print('Nothing to be done.')
     end

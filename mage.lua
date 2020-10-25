@@ -26,8 +26,7 @@ function MB.get_mage_data()
     spells['shift-='] = 'Conjure Refreshment'
     spells['w'] = 'Frost Nova'
     spells['shift-e'] = 'Rune of Power'
-    spells['r'] = 'Blink'
-    spells['shift-t'] = 'Spellsteal'
+    spells['r'] = 'Blink' spells['shift-t'] = 'Spellsteal'
     spells['a'] = 'Arcane Explosion'
     spells['x'] = 'Ice Block'
     spells['shift-j'] = 'Arcane Explosion'
@@ -277,121 +276,14 @@ function MB.get_mage_noob_data()
     return spells, items, macros, unbound_macros
 end
 
-local function get_cd_table(tab)
-    local cd_table = {}
-    local tabname, tabicon, offset, num, _, _ = GetSpellTabInfo(tab)
-    local i = 1
-    for spellnum = offset + 1, offset + num do
-        --local realspellnum = GetKnownSlotFromHighestRankSlot(spellnum)
-        local spellname, spellSubName = GetSpellBookItemName(spellnum, BOOKTYPE_SPELL)
-        local _,_,_,_,_,_, spellid = GetSpellInfo(spellname)
-        local cd, gcd = GetSpellBaseCooldown(spellname)
-        if cd and cd > 0 then
-            cd_table[spellid] = cd
-        end
-    end
-    return cd_table
-end
-
-local function update_table(table1, table2)
-    -- updates values from table with values from table2
-    new_table = {}
-    for k,v in pairs(table1) do
-        new_table[k] = v
-    end
-    for k,v in pairs(table2) do
-        new_table[k] = v
-    end
-    return new_table
-end
-
-local function place_spells(cds)
-    local slot = 1
-    local sorted = {}
-    local values_list = {}
-    local values_set = {}
-    for spellid, cd in pairs(cds) do
-        if not values_set[cd] then
-            table.insert(values_list, cd)
-            values_set[cd] = true
-        end
-        spellids = sorted[cd]
-        if spellids then
-            table.insert(spellids, spellid)
-        else
-            sorted[cd] = {spellid}
-        end
-    end
-    table.sort(values_list)
-    for i = #values_list, 1, -1 do
-        cd = values_list[i]
-        local spellids = sorted[cd]
-        for _, spellid in pairs(spellids) do
-            print(GetSpellLink(spellid), spellid, cd)
-            PickupSpell(spellid)
-            PlaceAction(slot)
-            slot = slot + 1
-        end
-    end
-end
-
-
 function MB.mage_cds()
-    book2_cds = get_cd_table(2)
-    book3_cds = get_cd_table(3)
-    cds = update_table(book2_cds, book3_cds)
-    --for spellid in pairs(cds) do
-        --print(GetSpellLink(spellid), spellid)
-    --end
-    place_spells(cds)
-    --print(spellname)
-    --PickupSpell(spellid)
-    --print(i)
-    --PlaceAction(i)
-    --i = i + 1
-    --ClearCursor()
-    --print(a, b)
-end
-
-local function get_stats_string()
-    s = ''
-    local _, _, int = UnitStat('player', 4)
-    return (string.format("gear_intellect=%d", int) .. '\n'
-    .. string.format("gear_crit_rating=%d", GetCombatRating(9)) .. '\n'
-    .. string.format("gear_haste_rating=%d", GetCombatRating(18)) .. '\n'
-    .. string.format("gear_mastery_rating=%d", GetCombatRating(26)) .. '\n'
-    .. string.format("gear_versatility_rating=%d", GetCombatRating(29)))
-end
-
-function MB.mage_stats()
-	local frame = CreateFrame("Frame", "MyStatsFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-	table.insert(UISpecialFrames, "MyStatsFrame")
-	frame:SetBackdrop(PaneBackdrop)
-	frame:SetBackdropColor(0,0,0,1)
-	frame:SetWidth(500)
-	frame:SetHeight(400)
-	frame:SetPoint("CENTER", UIParent, "CENTER")
-	frame:Hide()
-	frame:SetFrameStrata("DIALOG")
-
-	local scrollArea = CreateFrame("ScrollFrame", "MyStatsScroll", frame, "UIPanelScrollFrameTemplate")
-	scrollArea:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -30)
-	scrollArea:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -30, 8)
-
-	local editBox = CreateFrame("EditBox", nil, frame)
-	editBox:SetMultiLine(true)
-	editBox:SetMaxLetters(99999)
-	editBox:EnableMouse(true)
-	editBox:SetAutoFocus(false)
-	editBox:SetFontObject(ChatFontNormal)
-	editBox:SetWidth(400)
-	editBox:SetHeight(270)
-	editBox:SetScript("OnEscapePressed", function() frame:Hide() end)
-	editBox:SetText(get_stats_string())
-
-	scrollArea:SetScrollChild(editBox)
-
-	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
-	frame:Show()
+    book2_cds = MB.get_cd_table(2)
+    book3_cds = MB.get_cd_table(3)
+    cds = MB.update_table(book2_cds, book3_cds)
+    -- TODO: fix wrong cds
+    cds[MB.get_spellid('Frost Nova')] = 30000
+    cds[MB.get_spellid('Blink')] = 15000
+    cds[MB.get_spellid('Fire Blast')] = 11000
+    cds[MB.get_spellid('Conjure Refreshment')] = 0
+    MB.place_spells(cds)
 end
