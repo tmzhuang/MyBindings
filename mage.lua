@@ -1,5 +1,8 @@
 local _, MB = ...
 
+local MANA_GEM_ID = 36799
+local TRINKET2_ID = 14
+
 function delete_item(search)
     if not InCombatLockdown() then
         for bag = 0,4 do
@@ -16,9 +19,11 @@ function delete_item(search)
 end
 
 function MB.get_mage_data()
+    local race = string.lower(UnitRace('player'))
     local spells = {}
     local items = {}
     local macros = {}
+    local perCharacter_macros = {}
     local unbound_macros = {}
     spells['2'] = 'Time Warp'
     spells['3'] = 'Mirror Image'
@@ -129,21 +134,7 @@ function MB.get_mage_data()
 # trinket2
 /use 14
     ]]
-    macros['shift-pagedown'] = [[
-/use Every Man for Himself
-/use Stoneform
-/use Quaking Palm
-/use Arcane Torrent
-/use Gift of the Naaru
-/use Escape Artist
-/use Blood Fury
-/use Will of the Forsaken
-/use Berserking
-/use Darkflight
-/use Rocket Jump
-/use Shadowform
-/use War Stomp
-    ]]
+    perCharacter_macros['shift-pagedown'] = string.format('/use %s', MB.racial_spell[race])
     -- dpi down
     macros['numpad4'] = [[
 /use [@mouseover,help] Arcane Intellect; [@player] Arcane Intellect
@@ -177,7 +168,7 @@ function MB.get_mage_data()
 /use [mod:alt] Frost Ward
     ]]
     print('Rebound mage keys.')
-    return spells, items, macros, unbound_macros
+    return spells, items, macros, unbound_macros, perCharacter_macros
 end
 
 -- thumb1: 1/end
@@ -239,21 +230,6 @@ function MB.get_mage_noob_data()
 /stopcasting
 /use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
     ]]
-    macros['shift-pagedown'] = [[
-/use Every Man for Himself
-/use Stoneform
-/use Quaking Palm
-/use Arcane Torrent
-/use Gift of the Naaru
-/use Escape Artist
-/use Blood Fury
-/use Will of the Forsaken
-/use Berserking
-/use Darkflight
-/use Rocket Jump
-/use Shadowform
-/use War Stomp
-    ]]
     -- dpi down
     macros['numpad4'] = [[
 /use [@mouseover,help] Arcane Intellect; [@player] Arcane Intellect
@@ -275,7 +251,7 @@ function MB.get_mage_noob_data()
 /clearfocus
     ]]
     print('Rebound mage_noob keys.')
-    return spells, items, macros, unbound_macros
+    return spells, items, macros, unbound_macros, perCharacter_macros
 end
 
 function MB.mage_cds()
@@ -288,9 +264,12 @@ function MB.mage_cds()
     cds[MB.get_spellid('Fire Blast')] = 11000
     cds[MB.get_spellid('Conjure Refreshment')] = nil
     MB.place_spells(cds)
-    -- mana gem
-    MB.place_action('item', 36799, 36)
     local race = string.lower(UnitRace('player'))
-    MB.place_action('spell', MB.racial_spell[race], 35)
-    MB.place_action('inv', 14, 34)
+    local slot = 3 * 12 --bar 3
+    MB.place_action('spell', MB.get_spellid(MB.racial_spell[race]), slot)
+    slot = slot - 1
+    MB.place_action('inv', TRINKET2_ID, slot)
+    slot = slot - 1
+    MB.place_action('item', MANA_GEM_ID, slot)
+    print('Placed mage cds.')
 end

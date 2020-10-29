@@ -99,5 +99,11 @@ function MB.place_spells(cds, bar, reverse)
 end
 
 MB.racial_spell = {
-    goblin=69041
+    goblin='Rocket Jump',
+    dark_iron_dwarf='Fireblood',
+    draenei='Gift of the Naaru',
+    dwarf='Stoneform',
+    human='Will to Survive',
+    kul_tiran='Haymaker', 
+    lightforged_draenei="Light's Judgement",
 }

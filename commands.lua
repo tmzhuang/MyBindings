@@ -4,17 +4,17 @@ local function get_macro_name(key)
     return ('K:' .. string.upper(key))
 end
 
-local function create_or_update_macro(name, text)
+local function create_or_update_macro(name, text, perCharacter)
     local existing_name = GetMacroInfo(name)
     if existing_name then
         index = EditMacro(existing_name, nil, nil, text)
     else
-        index = CreateMacro(name, "INV_MISC_QUESTIONMARK", text)
+        index = CreateMacro(name, "INV_MISC_QUESTIONMARK", text, perCharacter)
     end
     return index
 end
 
-local function sync_macros(macros, mode)
+local function sync_macros(macros, mode, perCharacter)
     mode = mode or 1
     for key, text in pairs(macros) do
         local name = ''
@@ -23,7 +23,7 @@ local function sync_macros(macros, mode)
         else
             name = key
         end
-        local index = create_or_update_macro(name, text)
+        local index = create_or_update_macro(name, text, perCharacter)
     end
 end
 
@@ -42,6 +42,28 @@ local function bind_keys(spells, items, macros)
     end
 end
 
+local function bind_profile(name)
+    fname = string.format('get_%s_data', name)
+    data_f = MB[fname]
+    if data_f then 
+        spells, items, macros, unbound_macros, perCharacter_macros = data_f()
+        sync_macros(macros, 1)
+        sync_macros(perCharacter_macros, 1, true)
+        sync_macros(unbound_macros, 2)
+        bind_keys(spells, items, macros)
+        bind_keys(spells, items, perCharacter_macros)
+        SaveBindings(1)
+        SaveBindings(2)
+    end
+end
+
+local function place_cds(name)
+    fname = string.format('%s_cds', name)
+    cds_f = MB[fname]
+    cds_f()
+end
+
+
 function MB.run_command(argstr)
     if InCombatLockdown() then
         MB.PrintError(ERR_NOT_IN_COMBAT)
@@ -49,25 +71,22 @@ function MB.run_command(argstr)
     end
 
     local args = { strsplit(" ", argstr) }
-    local bindset = {mage=true, mage_noob=true}
-    if bindset[args[1]] then
-        local spells, items, macros, unbound_macros = {}, {}, {}, {}
-        if args[1] == 'mage' then
-            spells, items, macros, unbound_macros = MB.get_mage_data()
-        elseif args[1] == 'mage_noob' then
-            spells, items, macros, unbound_macros = MB.get_mage_noob_data()
-        end
-        sync_macros(macros, 1)
-        sync_macros(unbound_macros, 2)
-        bind_keys(spells, items, macros)
-    elseif args[1] == 'cds' then
-        MB.mage_cds()
-    elseif args[1] == 'test' then
-        MB.test()
+    local name = ''
+    if args[1]=='' then
+        name = 'mage'
     else
-        print('Nothing to be done.')
+        name = args[1]
     end
-
-    SaveBindings(1)
-    SaveBindings(2)
-end
+    local bindset = {mage=true, mage_noob=true}
+    if bindset[name] then
+        if not args[2] then
+            bind_profile(name)
+            place_cds(name)
+        elseif args[2] == 'spells' then
+            bind_profile(name)
+        elseif args[2] == 'cds' then
+            place_cds(name)
+        end
+    elseif name == 'test' then
+        MB.test()
+    end end
