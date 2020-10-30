@@ -160,7 +160,7 @@ function MB.get_mage_data()
 /clearfocus
     ]]
     -- dpi up
-    macros['numpad5'] = [[
+    macros['numpad6'] = [[
 /use [spec:1, nomod] Prismatic Barrier
 /use [spec:2, nomod] Blazing Barrier
 /use [spec:3, nomod] Ice Barrier

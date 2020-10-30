@@ -11,6 +11,7 @@ function MB.pickup_item(search)
             for slot = 1,GetContainerNumSlots(bag) do
                 local item = GetContainerItemLink(bag,slot)
                 if item and item:find(search) then
+                    ClearCursor()
                     PickupContainerItem(bag, slot)
                     return bag, slot
                 end
@@ -51,18 +52,21 @@ end
 
 function MB.place_action(type_, id, slot)
     local picked_up = true
-
     if type_ == 'spell' then
         PickupSpell(id)
     elseif type_ == 'item' then
         local bag, container_slot = MB.pickup_item(id)
     elseif type_ == 'inv' then
+        ClearCursor()
         PickupInventoryItem(id)
     else
         picked_up = false
     end
 
-    if picked_up then PlaceAction(slot) end
+    if picked_up then
+        PlaceAction(slot)
+        ClearCursor()
+    end
 end
 
 function MB.place_spells(cds, bar, reverse)
