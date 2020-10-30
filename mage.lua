@@ -263,6 +263,7 @@ function MB.mage_cds()
     cds[MB.get_spellid('Blink')] = 15000
     cds[MB.get_spellid('Fire Blast')] = 11000
     cds[MB.get_spellid('Conjure Refreshment')] = nil
+    cds[MB.get_spellid('Portal: Orgrimmar')] = nil
     MB.place_spells(cds)
     local race = string.lower(UnitRace('player'))
     local slot = 3 * 12 --bar 3
