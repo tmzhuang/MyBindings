@@ -27,7 +27,6 @@ function MB.get_mage_data()
     local unbound_macros = {}
     spells['2'] = 'Time Warp'
     spells['3'] = 'Mirror Image'
-    spells['4'] = 'Alter Time'
     spells['shift-='] = 'Conjure Refreshment'
     spells['w'] = 'Frost Nova'
     spells['shift-e'] = 'Rune of Power'
