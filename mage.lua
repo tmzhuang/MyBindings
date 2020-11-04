@@ -128,6 +128,13 @@ function MB.get_mage_data()
 /use [spec:2] Scorch
 /use [spec:3] Cone of Cold
     ]]
+    macros['shift-c'] = [[
+/use [spec:2] Living Bomb
+/use [spec:3] Ice Nova
+    ]]
+    macros['alt-c'] = [[
+/use [spec:3] Ice Floes
+    ]]
     -- middle mouse
     macros['numpad3'] = [[
 /use [spec:1] Arcane Power
@@ -178,26 +185,14 @@ end
 -- middle: 3/pagedown
 -- dpi down: 4/left
 -- dpi up: 6/right
---# Fire
---Living Bomb
-
---# Frost
---Ice Floes
---Ice Nova
-
---# Other macros/items
---Trinket
---Potion
---Mount
-
 --# Baseline
---[Alter Time]
 --R[Covenant signature]
 --[Covenant spell]
 function MB.get_mage_noob_data()
     local spells = {}
     local items = {}
     local macros = {}
+    local perCharacter_macros = {}
     local unbound_macros = {}
     spells['shift-='] = 'Conjure Refreshment'
     spells['w'] = 'Frost Nova'
@@ -256,6 +251,7 @@ function MB.get_mage_noob_data()
 end
 
 local fixes = {
+    ['Freeze']=25000,
     ['Frost Nova']=30000,
     ['Blink']=15000,
     ['Fire Blast']=11000,
@@ -294,3 +290,5 @@ function MB.mage_cds()
     MB.place_action('item', MANA_GEM_ID, slot)
     print('Placed mage cds.')
 end
+
+MB.mage_noob_cds = MB.mage_cds
