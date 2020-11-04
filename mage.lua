@@ -33,6 +33,7 @@ function MB.get_mage_data()
     spells['shift-e'] = 'Rune of Power'
     spells['r'] = 'Blink' spells['shift-t'] = 'Spellsteal'
     spells['a'] = 'Arcane Explosion'
+    spells['shift-s'] = 'Remove Curse'
     spells['x'] = 'Ice Block'
     spells['shift-j'] = 'Arcane Explosion'
 
@@ -104,11 +105,12 @@ function MB.get_mage_data()
 /use [spec:3]Comet Storm
     ]]
     macros['shift-f'] = [[
-/use [spec:1] Evocation
+/use [spec:1] Arcane Orb
 /use [spec:2] Greater Pyroblast
 /use [spec:3] Frozen Orb
     ]]
     macros['alt-f'] = [[
+/use [spec:1] Evocation
 /use [spec:3] Ray of Frost
     ]]
     macros['j'] = [[
@@ -118,8 +120,8 @@ function MB.get_mage_data()
     ]]
     macros['z'] = [[
 /use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
-/use [spec:2,nomod] Ice Lance; [spec:2,mod:shift,@focus] Ice Lance; [spec:2,mod:alt] Fire Blast
-/use [spec:3] Fire Blast
+/use [spec:2] Fire Blast
+/use [spec:3,nomod] Ice Lance; [spec:3,mod:shift,@focus] Ice Lance; [spec:3,mod:alt] Fire Blast
     ]]
     macros['c'] = [[
 /use [spec:1,nomod] Slow; [spec:1;mod:shift,@focus] Slow
@@ -186,7 +188,6 @@ end
 --# Other macros/items
 --Trinket
 --Potion
---Portals
 --Mount
 
 --# Baseline
@@ -254,16 +255,35 @@ function MB.get_mage_noob_data()
     return spells, items, macros, unbound_macros, perCharacter_macros
 end
 
+local fixes = {
+    ['Frost Nova']=30000,
+    ['Blink']=15000,
+    ['Fire Blast']=11000,
+    ['Conjure Refreshment']=0,
+}
+
+local function valid_key(key)
+    return not (key:find('^Portal') ~= nil)
+end
+
+local function fix_cds(cds)
+    for k,v in pairs(fixes) do
+        if valid_key(k) then
+            local spellid = MB.get_spellid(k)
+            if spellid then
+                cds[spellid] = v
+            end
+        end
+    end
+end
+
 function MB.mage_cds()
     book2_cds = MB.get_cd_table(2)
     book3_cds = MB.get_cd_table(3)
     cds = MB.update_table(book2_cds, book3_cds)
     -- TODO: fix wrong cds
-    cds[MB.get_spellid('Frost Nova')] = 30000
-    cds[MB.get_spellid('Blink')] = 15000
-    cds[MB.get_spellid('Fire Blast')] = 11000
-    cds[MB.get_spellid('Conjure Refreshment')] = nil
-    cds[MB.get_spellid('Portal: Orgrimmar')] = nil
+    fix_cds(cds)
+
     MB.place_spells(cds)
     local race = string.lower(UnitRace('player'))
     local slot = 3 * 12 --bar 3

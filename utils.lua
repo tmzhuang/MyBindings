@@ -92,7 +92,9 @@ function MB.place_spells(cds, bar, reverse)
         cd = values_list[i]
         local spellids = sorted[cd]
         for _, spellid in pairs(spellids) do
-            MB.place_action('spell', spellid, slot)
+            if cd > 0 then
+                MB.place_action('spell', spellid, slot)
+            end
             if reverse then
                 slot = slot - 1
             else
@@ -104,10 +106,13 @@ end
 
 MB.racial_spell = {
     goblin='Rocket Jump',
-    dark_iron_dwarf='Fireblood',
+    ['blood elf']='Arcane Torrent',
+    undying='Will of the Forsaken',
+    troll='Berserking',
+    ['dark iron dwarf']='Fireblood',
     draenei='Gift of the Naaru',
     dwarf='Stoneform',
     human='Will to Survive',
-    kul_tiran='Haymaker', 
-    lightforged_draenei="Light's Judgement",
+    ['kul tiran']='Haymaker', 
+    ['lightforged draenei']="Light's Judgement",
 }
