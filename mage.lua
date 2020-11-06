@@ -60,9 +60,8 @@ function MB.get_mage_data()
 /use [nomod] Counterspell; [mod:shift, @focus] Counterspell
     ]]
     macros['q'] = [[
+/use Invisibility
 /use [spec:1] Greater Invisibility
-/use [spec:2] Invisibility
-/use [spec:3] Invisibility
     ]]
     macros['shift-w'] = [[
 /cast [nopet] Summon Water Elemental
@@ -81,7 +80,7 @@ function MB.get_mage_data()
     macros['e'] = [[
 /use [spec:1] Touch of the Magi
 /use [spec:2] Dragon's Breath
-/use [spec:3] Cold Snap
+/use [spec:3] Ice Floes
     ]]
     macros['t'] = [[
 /use [spec:1] Arcane Missiles
@@ -110,6 +109,7 @@ function MB.get_mage_data()
     ]]
     macros['alt-f'] = [[
 /use [spec:1] Evocation
+/use [spec:3] Ice Floes
 /use [spec:3] Ray of Frost
     ]]
     macros['j'] = [[
@@ -132,7 +132,7 @@ function MB.get_mage_data()
 /use [spec:3] Ice Nova
     ]]
     macros['alt-c'] = [[
-/use [spec:3] Ice Floes
+/use [spec:3] Cold Snap
     ]]
     -- middle mouse
     macros['numpad3'] = [[
