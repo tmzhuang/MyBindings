@@ -60,6 +60,8 @@ function MB.get_mage_data()
 /use [nomod] Counterspell; [mod:shift, @focus] Counterspell
     ]]
     macros['q'] = [[
+/cancelaura Greater Invisibility
+/cancelaura Invisibility
 /use Invisibility
 /use [spec:1] Greater Invisibility
     ]]
@@ -255,6 +257,8 @@ local fixes = {
     ['Blink']=15000,
     ['Fire Blast']=11000,
     ['Conjure Refreshment']=0,
+    --arcane only
+    ['Evocation']=90000,
 }
 
 local function valid_key(key)
