@@ -69,7 +69,8 @@ function MB.place_action(type_, id, slot)
     end
 end
 
-function MB.place_spells(cds, bar, reverse)
+function MB.place_spells(cds, max, bar, reverse)
+    if not max then max = 9 end
     local slot = 1
     if bar then slot = 12 * bar end
     local sorted = {}
@@ -93,21 +94,31 @@ function MB.place_spells(cds, bar, reverse)
         local spellids = sorted[cd]
         for _, spellid in pairs(spellids) do
             if cd > 0 then
+                print('Placing spell', GetSpellLink(spellid), 'in slot', slot)
                 MB.place_action('spell', spellid, slot)
-            end
-            if reverse then
-                slot = slot - 1
-            else
-                slot = slot + 1
+                if reverse then
+                    slot = slot - 1
+                    if ((slot % 12 - 1) > max) then
+                        local bar = math.floor(slot/12)
+                        slot = (bar - 1) * 12 + max
+                    end
+                else
+                    slot = slot + 1
+                    if ((slot % 12 - 1) > max) then
+                        local bar = math.floor(slot/12)
+                        slot = (bar + 1) * 12 + 1
+                    end
+                end
             end
         end
     end
+    return slot
 end
 
 MB.racial_spell = {
     goblin='Rocket Jump',
     ['blood elf']='Arcane Torrent',
-    undying='Will of the Forsaken',
+    undead='Will of the Forsaken',
     troll='Berserking',
     ['dark iron dwarf']='Fireblood',
     draenei='Gift of the Naaru',

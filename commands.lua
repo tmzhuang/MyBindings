@@ -80,9 +80,9 @@ function MB.run_command(argstr)
     local bindset = {mage=true, mage_noob=true}
     if bindset[name] then
         if not args[2] then
-            bind_profile(name)
-            place_cds(name)
-        elseif args[2] == 'spells' then
+            args[2] = 'spells'
+        end
+        if args[2] == 'spells' then
             bind_profile(name)
         elseif args[2] == 'cds' then
             place_cds(name)

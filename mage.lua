@@ -75,9 +75,9 @@ function MB.get_mage_data()
 /use Waterbolt
     ]]
     macros['g'] = [[
-/use [spec:1,nomod] Arcane Blast; [spec:1,mod:shift] Frostbolt
-/use [spec:2,nomod] Fireball; [spec:1,mod:shift] Frostbolt
-/use [spec:3,nomod] Frostbolt; [spec:3,mod:alt] Glacial Spike; [spec:3,mod:shift] Ebonbolt
+/use [spec:1,nomod] Arcane Blast;[spec:1,mod:shift] Frostbolt
+/use [spec:2,nomod] Fireball;[spec:1,mod:shift] Greater Pyroblast;[spec:1,mod:alt] Frostbolt
+/use [spec:3,nomod] Frostbolt;[spec:3,mod:alt] Glacial Spike;[spec:3,mod:shift] Ebonbolt
     ]]
     macros['e'] = [[
 /use [spec:1] Touch of the Magi
@@ -134,16 +134,19 @@ function MB.get_mage_data()
 /use [spec:3] Ice Nova
     ]]
     macros['alt-c'] = [[
+/use [spec:2] Phoenix Flames
 /use [spec:3] Cold Snap
     ]]
     -- middle mouse
     macros['numpad3'] = [[
+/use Berserking
+# trinket2
+/use 14
 /use [spec:1] Arcane Power
 /use [spec:2] Combustion
 /use [spec:3] Icy Veins
-# trinket2
-/use 14
     ]]
+    print(race)
     perCharacter_macros['shift-pagedown'] = string.format('/use %s', MB.racial_spell[race])
     -- dpi down
     macros['numpad4'] = [[
@@ -252,13 +255,16 @@ function MB.get_mage_noob_data()
 end
 
 local fixes = {
+    ['Rune of Power']=45000,
     ['Freeze']=25000,
     ['Frost Nova']=30000,
     ['Blink']=15000,
     ['Fire Blast']=11000,
     ['Conjure Refreshment']=0,
-    --arcane only
+    --arcane
     ['Evocation']=90000,
+    --fire
+    ['Phoenix Flames']=25000,
 }
 
 local function valid_key(key)
@@ -283,13 +289,13 @@ function MB.mage_cds()
     -- TODO: fix wrong cds
     fix_cds(cds)
 
-    MB.place_spells(cds)
+    local slot = MB.place_spells(cds, 7)
     local race = string.lower(UnitRace('player'))
-    local slot = 3 * 12 --bar 3
+    print(slot)
     MB.place_action('spell', MB.get_spellid(MB.racial_spell[race]), slot)
-    slot = slot - 1
+    slot = slot + 1
     MB.place_action('inv', TRINKET2_ID, slot)
-    slot = slot - 1
+    slot = slot + 1
     MB.place_action('item', MANA_GEM_ID, slot)
     print('Placed mage cds.')
 end
