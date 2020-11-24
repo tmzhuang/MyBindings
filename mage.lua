@@ -30,14 +30,16 @@ function MB.get_mage_data()
     spells['shift-='] = 'Conjure Refreshment'
     spells['w'] = 'Frost Nova'
     spells['shift-e'] = 'Rune of Power'
-    spells['r'] = 'Blink' spells['shift-t'] = 'Spellsteal'
+    spells['shift-t'] = 'Spellsteal'
     spells['a'] = 'Arcane Explosion'
-    spells['shift-s'] = 'Remove Curse'
     spells['x'] = 'Ice Block'
     spells['shift-j'] = 'Arcane Explosion'
 
     items['0'] = 'Hearthstone'
 
+    macros['1'] = [[
+/use Phial of Serenity
+]]
     macros['5'] = [[
 /use [nomod] Polymorph; [mod:shift, @focus] Polymorph
 ]]
@@ -57,13 +59,17 @@ function MB.get_mage_data()
     SetBinding('SHIFT-V')
     SetBinding('CTRL-V')
     macros['v'] = [[
-/use [nomod] Counterspell; [mod:shift, @focus] Counterspell
+/use [nomod,harm,@mouseover][nomod,harm][mod:shift, @focus]Counterspell
     ]]
     macros['q'] = [[
 /cancelaura Greater Invisibility
 /cancelaura Invisibility
-/use Invisibility
-/use [spec:1] Greater Invisibility
+/use [nomod] Invisibility
+/use [spec:1,nomod]Greater Invisibility; [spec:1,mod:shift] Mass Invisibility
+    ]]
+    macros['shift-q'] = [[
+/cancelaura Mass Invisibility
+/use [spec:1] Mass Invisibility
     ]]
     macros['shift-w'] = [[
 /cast [nopet] Summon Water Elemental
@@ -73,6 +79,28 @@ function MB.get_mage_data()
     ]]
     macros['alt-w'] = [[
 /use Waterbolt
+    ]]
+    macros['alt-e'] = [[
+/use Radiant Spark
+/use Deathborne
+/use Shifting Power
+/use Mirrors of Torment
+    ]]
+    macros['r'] = [[
+#showtooltip
+/cancelaura Ice Block
+/use Blink
+    ]]
+    macros['alt-r'] = [[
+#showtooltip
+/cancelaura Ice Block
+/use Summon Steward
+/use Fleshcraft
+/use Soulshape
+/use Door of Shadows
+    ]]
+    macros['shift-s'] = [[
+/use [help,@cursor][@player]Remove Curse
     ]]
     macros['g'] = [[
 /use [spec:1,nomod] Arcane Blast;[spec:1,mod:shift] Frostbolt
@@ -91,8 +119,8 @@ function MB.get_mage_data()
     ]]
     macros['y'] = [[
 /use [spec:1] Presence of Mind
-/use [spec:2] Flamestrike
-/use [spec:3,nomod] Blizzard; [spec:3,mod:shift] Ring of Frost
+/use [spec:2,@cursor] Flamestrike
+/use [spec:3,nomod,@cursor] Blizzard;[spec:3,mod:shift,@cursor] Ring of Frost
     ]]
     macros['alt-s'] = [[
 /run C_MountJournal.SummonByID(0)
@@ -117,7 +145,7 @@ function MB.get_mage_data()
     macros['j'] = [[
 /dismount
 /stopcasting
-/use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
+/use [nomod,@player][mod:shift,@mouseover]Slow Fall
     ]]
     macros['z'] = [[
 /use [spec:1,nomod] Arcane Barrage; [spec:1,mod:alt] Fire Blast
@@ -156,6 +184,9 @@ function MB.get_mage_data()
     macros['numpad1'] = [[
 /use Alter Time
     ]]
+    macros['shift-end'] = [[
+/use Temporal Shield
+    ]]
     -- thumb 2
     macros['numpad2'] = [[
 /focus [@mouseover,harm,nodead]; [@target,harm,nodead]
@@ -189,9 +220,6 @@ end
 -- middle: 3/pagedown
 -- dpi down: 4/left
 -- dpi up: 6/right
---# Baseline
---R[Covenant signature]
---[Covenant spell]
 function MB.get_mage_noob_data()
     local spells = {}
     local items = {}
@@ -223,12 +251,12 @@ function MB.get_mage_noob_data()
     SetBinding('SHIFT-V')
     SetBinding('CTRL-V')
     macros['v'] = [[
-/use [nomod] Counterspell; [mod:shift, @focus] Counterspell
+/use [nomod,harm,@mouseover][nomod,harm]Counterspell;[mod:shift, @focus]Counterspell
     ]]
     macros['j'] = [[
 /dismount
 /stopcasting
-/use [nomod,@player] Slow Fall; [mod:shift,@mouseover] Slow Fall
+/use [nomod,@player]Slow Fall;[mod:shift,@mouseover]Slow Fall
     ]]
     -- dpi down
     macros['numpad4'] = [[
