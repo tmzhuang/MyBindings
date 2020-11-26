@@ -1,6 +1,7 @@
 local _, MB = ...
 
 local MANA_GEM_ID = 36799
+local TRINKET1_ID = 13
 local TRINKET2_ID = 14
 
 function delete_item(search)
@@ -168,7 +169,7 @@ function MB.get_mage_data()
     -- middle mouse
     macros['numpad3'] = [[
 /use Berserking
-# trinket2
+/use 13
 /use 14
 /use [spec:1] Arcane Power
 /use [spec:2] Combustion
@@ -323,6 +324,8 @@ function MB.mage_cds()
     local race = string.lower(UnitRace('player'))
     print(slot)
     MB.place_action('spell', MB.get_spellid(MB.racial_spell[race]), slot)
+    slot = slot + 1
+    MB.place_action('inv', TRINKET1_ID, slot)
     slot = slot + 1
     MB.place_action('inv', TRINKET2_ID, slot)
     slot = slot + 1
