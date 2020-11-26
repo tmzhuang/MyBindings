@@ -91,7 +91,7 @@ function MB.get_mage_data()
 /cancelaura Ice Block
 /use Blink
     ]]
-    macros['alt-r'] = [[
+    macros['shift-r'] = [[
 #showtooltip
 /cancelaura Ice Block
 /use Summon Steward
@@ -174,7 +174,6 @@ function MB.get_mage_data()
 /use [spec:2] Combustion
 /use [spec:3] Icy Veins
     ]]
-    print(race)
     perCharacter_macros['shift-pagedown'] = string.format('/use %s', MB.racial_spell[race])
     -- dpi down
     macros['numpad4'] = [[
@@ -183,6 +182,9 @@ function MB.get_mage_data()
     -- thumb 1
     macros['numpad1'] = [[
 /use Alter Time
+    ]]
+    macros['alt-numpad1'] = [[
+/cancelaura Alter Time
     ]]
     macros['shift-end'] = [[
 /use Temporal Shield
