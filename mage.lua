@@ -62,6 +62,9 @@ function MB.get_mage_data()
     macros['v'] = [[
 /use [nomod,harm,@mouseover][nomod,harm][mod:shift, @focus]Counterspell
     ]]
+    macros['b'] = [[
+/use 13
+    ]]
     macros['q'] = [[
 /cancelaura Greater Invisibility
 /cancelaura Invisibility
@@ -92,6 +95,10 @@ function MB.get_mage_data()
 /cancelaura Ice Block
 /use Blink
     ]]
+    macros['alt-r'] = [[
+# nitro boost on belt
+/use 6
+]]
     macros['shift-r'] = [[
 #showtooltip
 /cancelaura Ice Block
@@ -169,7 +176,7 @@ function MB.get_mage_data()
     -- middle mouse
     macros['numpad3'] = [[
 /use Berserking
-/use 13
+#/use 13
 /use 14
 /use [spec:1] Arcane Power
 /use [spec:2] Combustion
@@ -320,16 +327,14 @@ function MB.mage_cds()
     -- TODO: fix wrong cds
     fix_cds(cds)
 
-    local slot = MB.place_spells(cds, 7)
+    local max = 7
+    local slot = MB.place_spells(cds, max)
     local race = string.lower(UnitRace('player'))
-    print(slot)
-    MB.place_action('spell', MB.get_spellid(MB.racial_spell[race]), slot)
-    slot = slot + 1
-    MB.place_action('inv', TRINKET1_ID, slot)
-    slot = slot + 1
-    MB.place_action('inv', TRINKET2_ID, slot)
-    slot = slot + 1
-    MB.place_action('item', MANA_GEM_ID, slot)
+    slot = MB.place_action('spell', MB.get_spellid(MB.racial_spell[race]), slot, max)
+    slot = MB.place_action('macro', nil, slot, max, nil, 'belt')
+    slot = MB.place_action('macro', nil, slot, max, nil, 'trinket1')
+    slot = MB.place_action('macro', nil, slot, max, nil, 'trinket2')
+    slot = MB.place_action('item', MANA_GEM_ID, slot, max)
     print('Placed mage cds.')
 end
 

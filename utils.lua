@@ -50,7 +50,24 @@ function MB.update_table(table1, table2)
     return new_table
 end
 
-function MB.place_action(type_, id, slot)
+function calculate_slot(slot, max, reverse)
+    if reverse then
+        slot = slot - 1
+        if ((slot % 12 - 1) > max) then
+            local bar = math.floor(slot/12)
+            slot = (bar - 1) * 12 + max
+        end
+    else
+        slot = slot + 1
+        if ((slot % 12 - 1) > max) then
+            local bar = math.floor(slot/12)
+            slot = (bar + 1) * 12 + 1
+        end
+    end
+    return slot
+end
+
+function MB.place_action(type_, id, slot, max, reverse, name)
     local picked_up = true
     if type_ == 'spell' then
         PickupSpell(id)
@@ -59,6 +76,13 @@ function MB.place_action(type_, id, slot)
     elseif type_ == 'inv' then
         ClearCursor()
         PickupInventoryItem(id)
+    elseif type_ == 'macro' then
+        ClearCursor()
+        if name then
+            PickupMacro(name)
+        else
+            PickupMacro(id)
+        end
     else
         picked_up = false
     end
@@ -67,6 +91,8 @@ function MB.place_action(type_, id, slot)
         PlaceAction(slot)
         ClearCursor()
     end
+    slot = calculate_slot(slot, max, reverse)
+    return slot
 end
 
 function MB.place_spells(cds, max, bar, reverse)
@@ -95,20 +121,7 @@ function MB.place_spells(cds, max, bar, reverse)
         for _, spellid in pairs(spellids) do
             if cd > 0 then
                 print('Placing spell', GetSpellLink(spellid), 'in slot', slot)
-                MB.place_action('spell', spellid, slot)
-                if reverse then
-                    slot = slot - 1
-                    if ((slot % 12 - 1) > max) then
-                        local bar = math.floor(slot/12)
-                        slot = (bar - 1) * 12 + max
-                    end
-                else
-                    slot = slot + 1
-                    if ((slot % 12 - 1) > max) then
-                        local bar = math.floor(slot/12)
-                        slot = (bar + 1) * 12 + 1
-                    end
-                end
+                slot = MB.place_action('spell', spellid, slot, max, reverse)
             end
         end
     end
