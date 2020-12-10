@@ -40,6 +40,7 @@ function MB.get_mage_data()
 
     macros['1'] = [[
 /use Phial of Serenity
+/use Healthstone
 ]]
     macros['5'] = [[
 /use [nomod] Polymorph; [mod:shift, @focus] Polymorph
@@ -186,6 +187,9 @@ function MB.get_mage_data()
     -- dpi down
     macros['numpad4'] = [[
 /use [@mouseover,help] Arcane Intellect; [@player] Arcane Intellect
+    ]]
+    macros['shift-left'] = [[
+/use Arcane Familiar
     ]]
     -- thumb 1
     macros['numpad1'] = [[
