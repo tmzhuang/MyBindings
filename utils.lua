@@ -120,7 +120,7 @@ function MB.place_spells(cds, max, bar, reverse)
         local spellids = sorted[cd]
         for _, spellid in pairs(spellids) do
             if cd > 0 then
-                print('Placing spell', GetSpellLink(spellid), 'in slot', slot)
+                --print('Placing spell', GetSpellLink(spellid), 'in slot', slot)
                 slot = MB.place_action('spell', spellid, slot, max, reverse)
             end
         end

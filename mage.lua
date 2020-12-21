@@ -1,6 +1,7 @@
 local _, MB = ...
 
 local MANA_GEM_ID = 36799
+local HEALTHSTONE_ID = 5512
 local TRINKET1_ID = 13
 local TRINKET2_ID = 14
 
@@ -58,8 +59,12 @@ function MB.get_mage_data()
 /use item:80618
 /use item:113509
     ]]
+    -- unbind default nameplate toggle keys
     SetBinding('SHIFT-V')
     SetBinding('CTRL-V')
+    macros['shift-n'] = [[
+/run LoadAddOn("Blizzard_WeeklyRewards"); WeeklyRewardsFrame:Show()
+    ]]
     macros['v'] = [[
 /use [nomod,harm,@mouseover][nomod,harm][mod:shift, @focus]Counterspell
     ]]
@@ -109,7 +114,7 @@ function MB.get_mage_data()
 /use Door of Shadows
     ]]
     macros['shift-s'] = [[
-/use [help,@cursor][@player]Remove Curse
+/use [help,@mouseover][@player]Remove Curse
     ]]
     macros['g'] = [[
 /use [spec:1,nomod] Arcane Blast;[spec:1,mod:shift] Frostbolt
@@ -127,9 +132,10 @@ function MB.get_mage_data()
 /use [spec:3] Flurry
     ]]
     macros['y'] = [[
-/use [spec:1] Presence of Mind
-/use [spec:2,@cursor] Flamestrike
-/use [spec:3,nomod,@cursor] Blizzard;[spec:3,mod:shift,@cursor] Ring of Frost
+/use [spec:1,nomod] Presence of Mind
+/use [spec:2,nomod,@cursor] Flamestrike
+/use [spec:3,nomod,@cursor] Blizzard
+/use [mod:shift,@cursor] Ring of Frost
     ]]
     macros['alt-s'] = [[
 /run C_MountJournal.SummonByID(0)
@@ -148,6 +154,7 @@ function MB.get_mage_data()
     ]]
     macros['alt-f'] = [[
 /use [spec:1] Evocation
+/use [spec:2] Living Bomb
 /use [spec:3] Ice Floes
 /use [spec:3] Ray of Frost
     ]]
@@ -162,12 +169,13 @@ function MB.get_mage_data()
 /use [spec:3,nomod] Ice Lance; [spec:3,mod:shift,@focus] Ice Lance; [spec:3,mod:alt] Fire Blast
     ]]
     macros['c'] = [[
-/use [spec:1,nomod] Slow; [spec:1;mod:shift,@focus] Slow
-/use [spec:2] Scorch
+/use [spec:1]Slow
+/use [spec:2]Scorch
 /use [spec:3] Cone of Cold
     ]]
     macros['shift-c'] = [[
-/use [spec:2] Living Bomb
+/use [spec:1,@focus]Slow
+/use [spec:2,@focus]Scorch
 /use [spec:3] Ice Nova
     ]]
     macros['alt-c'] = [[
@@ -339,6 +347,7 @@ function MB.mage_cds()
     slot = MB.place_action('macro', nil, slot, max, nil, 'trinket1')
     slot = MB.place_action('macro', nil, slot, max, nil, 'trinket2')
     slot = MB.place_action('item', MANA_GEM_ID, slot, max)
+    slot = MB.place_action('item', HEALTHSTONE_ID, slot, max)
     print('Placed mage cds.')
 end
 
