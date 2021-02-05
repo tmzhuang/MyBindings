@@ -29,19 +29,29 @@ function MB.get_mage_data()
     local unbound_macros = {}
     spells['2'] = 'Time Warp'
     spells['3'] = 'Mirror Image'
+    spells['shift-4'] = 'Blast Wave'
     spells['shift-='] = 'Conjure Refreshment'
     spells['w'] = 'Frost Nova'
     spells['shift-e'] = 'Rune of Power'
-    spells['shift-t'] = 'Spellsteal'
     spells['a'] = 'Arcane Explosion'
     spells['x'] = 'Ice Block'
     spells['shift-j'] = 'Arcane Explosion'
+    spells['shift-0'] = 'Teleport: Oribos'
+    spells['alt-0'] = 'Portal: Oribos'
 
     items['0'] = 'Hearthstone'
 
     macros['1'] = [[
+/petmoveto
+]]
+    macros['shift-1'] = [[
 /use Phial of Serenity
 /use Healthstone
+]]
+    macros['4'] = [[
+/cancelaura Combustion
+/cancelaura Arcane Power
+/cancelaura Ice Veins
 ]]
     macros['5'] = [[
 /use [nomod] Polymorph; [mod:shift, @focus] Polymorph
@@ -71,6 +81,9 @@ function MB.get_mage_data()
     macros['b'] = [[
 /use 13
     ]]
+    macros['shift-b'] = [[
+/use 14
+    ]]
     macros['q'] = [[
 /cancelaura Greater Invisibility
 /cancelaura Invisibility
@@ -82,7 +95,7 @@ function MB.get_mage_data()
 /use [spec:1] Mass Invisibility
     ]]
     macros['shift-w'] = [[
-/cast [nopet] Summon Water Elemental
+/cast [nopet][target=pet,dead]Summon Water Elemental
 /stop macro [nopet]
 /petpassive
 /use Freeze
@@ -117,9 +130,9 @@ function MB.get_mage_data()
 /use [help,@mouseover][@player]Remove Curse
     ]]
     macros['g'] = [[
-/use [spec:1,nomod] Arcane Blast;[spec:1,mod:shift] Frostbolt
-/use [spec:2,nomod] Fireball;[spec:1,mod:shift] Greater Pyroblast;[spec:1,mod:alt] Frostbolt
-/use [spec:3,nomod] Frostbolt;[spec:3,mod:alt] Glacial Spike;[spec:3,mod:shift] Ebonbolt
+/use [spec:1,nomod]Arcane Blast;[spec:1,mod:shift]Frostbolt
+/use [spec:2,nomod]Fireball;[spec:2,mod:shift]Greater Pyroblast;[spec:2,mod:alt]Frostbolt
+/use [spec:3,nomod]Frostbolt;[spec:3,mod:alt]Glacial Spike;[spec:3,mod:shift]Ebonbolt
     ]]
     macros['e'] = [[
 /use [spec:1] Touch of the Magi
@@ -131,10 +144,16 @@ function MB.get_mage_data()
 /use [spec:2] Pyroblast
 /use [spec:3] Flurry
     ]]
+    macros['shift-t'] = [[
+/use [nomod,harm,@mouseover][nomod,harm]Spellsteal
+    ]]
+    macros['alt-t'] = [[
+/use [nomod,harm,@focus]Spellsteal
+    ]]
     macros['y'] = [[
-/use [spec:1,nomod] Presence of Mind
-/use [spec:2,nomod,@cursor] Flamestrike
-/use [spec:3,nomod,@cursor] Blizzard
+/use [spec:1,nomod]Presence of Mind
+/use [spec:2,nomod,@cursor]Flamestrike
+/use [spec:3,nomod,@cursor]Blizzard
 /use [mod:shift,@cursor] Ring of Frost
     ]]
     macros['alt-s'] = [[
@@ -144,13 +163,13 @@ function MB.get_mage_data()
     macros['alt-d'] = [[
 /run delete_item("Mana Gem")
 /use [spec:1,nocombat]Conjure Mana Gem;Mana Gem
-/use [spec:2]Meteor
+/use [spec:2,nomod,@cursor]Meteor
 /use [spec:3]Comet Storm
     ]]
     macros['shift-f'] = [[
 /use [spec:1] Arcane Orb
 /use [spec:2] Greater Pyroblast
-/use [spec:3] Frozen Orb
+/use [spec:3,@cursor] Frozen Orb
     ]]
     macros['alt-f'] = [[
 /use [spec:1] Evocation
@@ -171,25 +190,25 @@ function MB.get_mage_data()
     macros['c'] = [[
 /use [spec:1]Slow
 /use [spec:2]Scorch
-/use [spec:3] Cone of Cold
+/use [spec:3]Cone of Cold
     ]]
     macros['shift-c'] = [[
 /use [spec:1,@focus]Slow
 /use [spec:2,@focus]Scorch
-/use [spec:3] Ice Nova
+/use [spec:3]Ice Nova
     ]]
     macros['alt-c'] = [[
-/use [spec:2] Phoenix Flames
-/use [spec:3] Cold Snap
+/use [spec:2]Phoenix Flames
+/use [spec:3]Cold Snap
     ]]
     -- middle mouse
     macros['numpad3'] = [[
 /use Berserking
 #/use 13
 /use 14
-/use [spec:1] Arcane Power
-/use [spec:2] Combustion
-/use [spec:3] Icy Veins
+/use [spec:1]Arcane Power
+/use [spec:2]Combustion
+/use [spec:3]Icy Veins
     ]]
     perCharacter_macros['shift-pagedown'] = string.format('/use %s', MB.racial_spell[race])
     -- dpi down
