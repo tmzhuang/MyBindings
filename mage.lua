@@ -21,7 +21,7 @@ function delete_item(search)
 end
 
 function MB.get_mage_data()
-    local race = string.lower(UnitRace('player'))
+    local race, _ = string.lower(UnitRace('player'))
     local spells = {}
     local items = {}
     local macros = {}
@@ -130,9 +130,7 @@ function MB.get_mage_data()
 /use [help,@mouseover][@player]Remove Curse
     ]]
     macros['g'] = [[
-/use [spec:1,nomod]Arcane Blast;[spec:1,mod:shift]Frostbolt
-/use [spec:2,nomod]Fireball;[spec:2,mod:shift]Greater Pyroblast;[spec:2,mod:alt]Frostbolt
-/use [spec:3,nomod]Frostbolt;[spec:3,mod:alt]Glacial Spike;[spec:3,mod:shift]Ebonbolt
+/use Fireball
     ]]
     macros['e'] = [[
 /use [spec:1] Touch of the Magi

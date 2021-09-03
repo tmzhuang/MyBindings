@@ -24,15 +24,19 @@ end
 function MB.get_cd_table(tab)
     -- get table that maps spellid:cd
     local cd_table = {}
-    local tabname, tabicon, offset, num, _, _ = GetSpellTabInfo(tab)
-    local i = 1
-    for spellnum = offset + 1, offset + num do
-        --local realspellnum = GetKnownSlotFromHighestRankSlot(spellnum)
-        local spellname, spellSubName = GetSpellBookItemName(spellnum, BOOKTYPE_SPELL)
-        local spellid = MB.get_spellid(spellname)
-        local cd, gcd = GetSpellBaseCooldown(spellname)
-        if cd and cd > 0 then
-            cd_table[spellid] = cd
+    local tabname, tabicon, offset, num = GetSpellTabInfo(tab)
+    for i = 1, MAX_SKILLLINE_TABS do
+        print(i)
+        local name, texture, offset, numSpells = GetSpellTabInfo(i);
+        print(name, texture, offset, numSpells)
+        for s = offset + 1, offset + numSpells do
+            print(s)
+            local spell, rank = GetSpellName(s, BOOKTYPE_SPELL);
+            print(spell, rank)
+            spell, rank = GetSpellName(s, BOOKTYPE_SPELL);
+            if cd and cd > 0 then
+                cd_table[spellid] = cd
+            end
         end
     end
     return cd_table
@@ -139,4 +143,5 @@ MB.racial_spell = {
     human='Will to Survive',
     ['kul tiran']='Haymaker', 
     ['lightforged draenei']="Light's Judgement",
+    orc='Blood Fury',
 }
