@@ -102,20 +102,18 @@ function MB.run_command(argstr)
     local args = { strsplit(" ", argstr, 2) }
     local name = ''
     local spec = ''
-    if args[1]=='' then
-        name = 'warrior'
-    else
-        name = args[1]
-    end
-    if args[2]==nil then
+    if args[1]==nil then
         spec = 'dps'
     else
-        spec = args[2]
+        spec = args[1]
     end
     local bindset = {mage=true, mage_noob=true, warrior=true}
-    if bindset[name] then
-        bind_profile(name, spec)
+    class = string.lower(UnitClass('player'))
+    print('DEBUG: class is', class)
+    print('DEBUG: spec is', spec)
+    if bindset[class] then
+        bind_profile(class, spec)
         save_bindings()
-    elseif name == 'test' then
+    elseif class == 'test' then
         MB.test()
     end end

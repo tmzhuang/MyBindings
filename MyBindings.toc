@@ -1,7 +1,7 @@
-﻿## Title: MyBindings
+﻿## Interface: 20502
+## Title: MyBindings
 ## Notes: Autoloads my bindings and macros
 ## Author: Kapitol
-## Interface: 20502
 ## Version: 0.1
 
 utils.lua
