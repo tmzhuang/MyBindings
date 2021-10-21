@@ -19,7 +19,7 @@ local function delete_item(search)
     end
 end
 
-function MB.get_warrior_data(spec)
+function MB.get_priest_data(spec)
     local DW1 = ''
     local DW2 = ''
     local TWOHAND = ''
@@ -54,8 +54,7 @@ function MB.get_warrior_data(spec)
     local macros = {}
     local perCharacter_macros = {}
     local unbound_macros = {}
-    --spells['y'] = 'Cleave'
-    --print('DEBUG: locals set')
+
     unbound_macros['ClearFocus'] = [[
 /clearfocus
 ]]
@@ -73,6 +72,9 @@ function MB.get_warrior_data(spec)
     unbound_macros['RaidFrame'] = [[
 /run CompactRaidFrameManager:UnregisterAllEvents()
 /run CompactRaidFrameManager:Hide()
+]]
+    unbound_macros['Fort'] = [[
+/use [help,@mouseover]Power Word: Fortitude;[@player]Power Word: Fortitude
 ]]
 
     items['0'] = 'Hearthstone'
@@ -106,7 +108,7 @@ function MB.get_warrior_data(spec)
 /use Abacus of Violent Odds
 ]]
     macros['3'] = [[
-/use Blood Fury
+/use Arcane Torrent
 /use Bloodlust Brooch
 /use Abacus of Violent Odds
 ]]
@@ -116,13 +118,13 @@ function MB.get_warrior_data(spec)
 /use [stance:3] Recklessness
 ]]
     macros['4'] = [[
-/startattack
-/use [nomod]Slam
-/use [mod:shift]Heroic Strike
+/use Mind Blast
 ]]
     macros['5'] = [[
-/stopattack
-/use [nomod,harm,@mouseover][nomod,harm]Intimidating Shout;[mod:shift, @focus]Intimidating Shout
+/use Psychic Scream
+]]
+    macros['shift-5'] = [[
+/use Shadowfiend
 ]]
 --1	Star: Shackle undead
 --2	Circle: Sap
@@ -173,15 +175,11 @@ function MB.get_warrior_data(spec)
     SetBinding('SHIFT-V')
     SetBinding('CTRL-V')
     --print('DEBUG: reset default V bindings')
-    macros['q'] = [[
-/startattack
-/use [stance:1][stance:3] Execute
-/use [stance:2] Revenge
+    macros['shift-q'] = [[
+/use Fade
     ]]
     macros['w'] = [[
-/startattack
-/use [stance:1,nomod,harm,@mouseover][stance:1,nomod,harm][stance:1,mod:shift,@focus]Charge
-/use [stance:3,nomod,harm,@mouseover][stance:3,nomod,harm][stance:3,mod:shift,@focus]Intercept
+/use [help,@mouseover]Renew;[@player]Renew
     ]]
     macros['alt-w'] = string.format([[
 #showtooltip
@@ -191,17 +189,13 @@ function MB.get_warrior_data(spec)
 /use [stance:2] Spell Reflection
     ]], MH, SHIELD)
     macros['e'] = [[
-/startattack
-/use [stance:1][stance:3] Hamstring
-/use [stance:2] Shield Block
+/use [help,@mouseover]Lesser Heal;[@player]Lesser Heal
     ]]
     macros['alt-e'] = [[
 /use Challenging Shout
     ]]
     macros['r'] = [[
-/startattack
-/use Devastate
-/use Sunder Armor
+/use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Shadow Word: Pain
     ]]
     macros['shift-r'] = [[
 /startattack
@@ -213,14 +207,8 @@ function MB.get_warrior_data(spec)
     ]]
 --/use [stance:2,nomod,noharm,@mouseover][stance:2,nomod,noharm]Intervene
     macros['t'] = [[
-/use Defensive Stance
-/use [nomod,@Onestonedboy][mod:shift,noharm,@mouseover]Intervene
+/use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Shadow Word: Death
     ]]
-    macros['shift-y'] = [[
-/use The Decapitator
-/use [worn:thrown]Throw;[worn:bow][worn:gun][worn:crossbow]Shoot
-/startattack
-]]
     macros['a'] = [[
 /startattack
 /use [nostance:1] Battle Stance
@@ -240,6 +228,9 @@ function MB.get_warrior_data(spec)
 /startattack
 /use Cleave
     ]]
+    macros['shift-y'] = [[
+/use Shoot
+]]
     macros['alt-d'] = [[
 /use [stance:2][nomod,harm,@mouseover][nomod,harm]Taunt
 /use [stance:1][stance:3]Sweeping Strikes
@@ -252,23 +243,22 @@ function MB.get_warrior_data(spec)
 /use Demoralizing Shout
     ]]
     macros['g'] = [[
-/startattack
-/use [nostance:3] Berserker Stance
+/use Mind Flay
 ]]
     macros['shift-g'] = [[
-/startattack
-/use [nostance:3] Berserker Stance
-/use Whirlwind
+/use Smite
     ]]
+    macros['h'] = [[
+/use Ressurection
+]]
+    macros['shift-h'] = [[
+/use Mana Tap
+]]
     macros['\''] = [[
-/equip Brutal Hauberk
-/use Brutal Hauberk
+/use Prayer of Fortitude
 ]]
     macros['z'] = [[
-/startattack
-/use Shield Slam
-/use Mortal Strike
-/use Bloodthirst
+/use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Shadow Word: Death
     ]]
     macros['alt-z'] = [[
 /startattack
@@ -289,15 +279,14 @@ function MB.get_warrior_data(spec)
 /equipslot [mod:alt] 17 %s
     ]], DW1, DW2, TWOHAND, MH, SHIELD)
     macros['c'] = [[
-/use [nostance:2] Defensive Stance
+/use [help,@mouseover]Power Word: Shield;[@player]Power Word: Shield
     ]]
     macros['shift-c'] = [[
 /use Defensive Stance
 /use [harm] Disarm
     ]]
     macros['v'] = [[
-/use [stance:3,nomod,harm,@mouseover][stance:3,nomod,harm][stance:3,mod:shift,@focus]Pummel
-/use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Shield Bash
+/use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Silence
     ]]
     macros['b'] = [[
 /use 13
@@ -332,8 +321,8 @@ local function fix_cds(cds)
     end
 end
 
-function MB.warrior_cds()
-    print('warrior_cds')
+function MB.priest_cds()
+    print('priest_cds')
     book2_cds = MB.get_cd_table(2)
     book3_cds = MB.get_cd_table(3)
     cds = MB.update_table(book2_cds, book3_cds)
@@ -347,6 +336,6 @@ function MB.warrior_cds()
     --slot = MB.place_action('macro', nil, slot, max, nil, 'belt')
     --slot = MB.place_action('macro', nil, slot, max, nil, 'trinket1')
     --slot = MB.place_action('macro', nil, slot, max, nil, 'trinket2')
-    print('Placed warrior cds.')
+    print('Placed priest cds.')
 end
 

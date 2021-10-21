@@ -15,7 +15,7 @@ local function create_or_update_macro(name, text, perCharacter)
 end
 
 local function sync_macros(macros, mode, perCharacter)
-    mode = mode or 1
+    mode = (mode==nil and 1) or mode
     for key, text in pairs(macros) do
         local name = ''
         if mode == 1 then
@@ -27,7 +27,27 @@ local function sync_macros(macros, mode, perCharacter)
     end
 end
 
+local function clear_keys()
+    print('here')
+    local base_keys = {'1', '2', '3', '4', '5',
+    'q', 'w', 'e', 'r', 't', 'y', 'a', 'g', 'h',
+    'z', 'x', 'c', 'v', 'b'}
+    for _, mod in pairs({'none', 'shift-', 'alt-'}) do
+        for _, key in pairs(base_keys) do
+            if mod == 'none' then
+                --print(string.upper(key))
+                SetBinding(string.upper(key))
+            else
+                --print(string.upper(mod..key))
+                SetBinding(string.upper(mod..key))
+            end
+        end
+    end
+    print('Cleared previous bindings.')
+end
+
 local function bind_keys(spells, items, macros, percharacter_macros)
+    clear_keys()
     local ok
     --print('binding spells')
     for key, spell in pairs(spells) do
@@ -60,6 +80,10 @@ local function bind_profile(name, spec)
         data_f = MB.get_mage_data
     elseif name == 'warrior' then
         data_f = MB.get_warrior_data
+    elseif name == 'priest' then
+        --print('Before data_f')
+        data_f = MB.get_priest_data
+        --print('After data_f')
     end
     if data_f then 
         print('Getting bind data...')
@@ -99,15 +123,15 @@ function MB.run_command(argstr)
         return true
     end
 
+    local class = ''
     local args = { strsplit(" ", argstr, 2) }
-    local name = ''
     local spec = ''
-    if args[1]==nil then
+    if args[1]=='' then
         spec = 'dps'
     else
         spec = args[1]
     end
-    local bindset = {mage=true, mage_noob=true, warrior=true}
+    local bindset = {mage=true, mage_noob=true, warrior=true, priest=true}
     class = string.lower(UnitClass('player'))
     print('DEBUG: class is', class)
     print('DEBUG: spec is', spec)

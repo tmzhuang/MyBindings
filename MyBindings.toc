@@ -8,6 +8,7 @@ utils.lua
 print.lua
 mage.lua
 warrior.lua
+priest.lua
 test.lua
 commands.lua
 main.lua
