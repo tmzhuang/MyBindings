@@ -28,9 +28,8 @@ local function sync_macros(macros, mode, perCharacter)
 end
 
 local function clear_keys()
-    print('here')
     local base_keys = {'1', '2', '3', '4', '5',
-    'q', 'w', 'e', 'r', 't', 'y', 'a', 'g', 'h',
+    'q', 'w', 'e', 'r', 't', 'y', 'u', 'a', 'g', 'h',
     'z', 'x', 'c', 'v', 'b'}
     for _, mod in pairs({'none', 'shift-', 'alt-'}) do
         for _, key in pairs(base_keys) do
@@ -73,14 +72,15 @@ local function bind_keys(spells, items, macros, percharacter_macros)
     end
 end
 
-local function bind_profile(name, spec)
-    print('Binding profile...', name, spec)
-    fname = string.format('get_%s_data', name)
-    if name == 'mage' then
+local function bind_profile(spec)
+    local class = string.lower(UnitClass('player'))
+    print('Binding profile...', class, spec)
+    fname = string.format('get_%s_data', class)
+    if class == 'mage' then
         data_f = MB.get_mage_data
-    elseif name == 'warrior' then
+    elseif class == 'warrior' then
         data_f = MB.get_warrior_data
-    elseif name == 'priest' then
+    elseif class == 'priest' then
         --print('Before data_f')
         data_f = MB.get_priest_data
         --print('After data_f')
@@ -103,10 +103,10 @@ local function bind_profile(name, spec)
     end
 end
 
-local function place_cds(name)
-    if name == 'mage' then
+local function place_cds(class)
+    if class == 'mage' then
         cds_f = MB.mage_cds
-    elseif name == 'warrior' then
+    elseif class == 'warrior' then
         cds_f = MB.warrior_cds
     end
     cds_f()
@@ -130,14 +130,22 @@ function MB.run_command(argstr)
         spec = 'dps'
     else
         spec = args[1]
+        MyBindingsSpec = spec
     end
-    local bindset = {mage=true, mage_noob=true, warrior=true, priest=true}
-    class = string.lower(UnitClass('player'))
-    print('DEBUG: class is', class)
-    print('DEBUG: spec is', spec)
-    if bindset[class] then
-        bind_profile(class, spec)
-        save_bindings()
-    elseif class == 'test' then
-        MB.test()
-    end end
+    local class = string.lower(UnitClass('player'))
+    --print('DEBUG: class is', class)
+    --print('DEBUG: spec is', spec)
+    bind_profile(spec)
+    save_bindings()
+end
+
+local frame = CreateFrame("FRAME", "MBFrame");
+frame:RegisterEvent("PLAYER_LOGIN");
+local function eventHandler(self, event, ...)
+    if MyBindingsSpec == nil then
+        MyBindingsSpec = 'dps'
+    end
+    bind_profile(MyBindingsSpec)
+    print('MyBindings: Commands loaded!')
+end
+frame:SetScript("OnEvent", eventHandler);

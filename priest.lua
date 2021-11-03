@@ -121,10 +121,7 @@ function MB.get_priest_data(spec)
 /use Mind Blast
 ]]
     macros['5'] = [[
-/use Psychic Scream
-]]
-    macros['shift-5'] = [[
-/use Shadowfiend
+/use [nomod] Shackle Undead; [mod:shift, @focus] Shackle Undead
 ]]
 --1	Star: Shackle undead
 --2	Circle: Sap
@@ -175,21 +172,24 @@ function MB.get_priest_data(spec)
     SetBinding('SHIFT-V')
     SetBinding('CTRL-V')
     --print('DEBUG: reset default V bindings')
+    macros['q'] = [[
+/use [help,@mouseover]Greater Heal;[@player]Greater Heal
+/use [help,@mouseover]Heal;[@player]Heal
+    ]]
     macros['shift-q'] = [[
 /use Fade
     ]]
     macros['w'] = [[
-/use [help,@mouseover]Renew;[@player]Renew
+/use Psychic Scream
     ]]
+    macros['shift-w'] = [[
+/use Shadowfiend
+]]
     macros['alt-w'] = string.format([[
-#showtooltip
-/equipslot [noworn:shield] 16 %s
-/equipslot [noworn:shield] 17 %s
-/use [nostance:2] Defensive Stance
-/use [stance:2] Spell Reflection
+/use Mind Soothe
     ]], MH, SHIELD)
     macros['e'] = [[
-/use [help,@mouseover]Lesser Heal;[@player]Lesser Heal
+/use [dead,help,@mouseover]Ressurection;[help,@mouseover]Flash Heal;[@player]Flash Heal
     ]]
     macros['alt-e'] = [[
 /use Challenging Shout
@@ -210,9 +210,7 @@ function MB.get_priest_data(spec)
 /use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Shadow Word: Death
     ]]
     macros['a'] = [[
-/startattack
-/use [nostance:1] Battle Stance
-/use [harm] Overpower
+/use [help,@mouseover]Renew;[@player]Renew
     ]]
     macros['alt-a'] = [[
 /use [nostance:1] Battle Stance
@@ -225,10 +223,15 @@ function MB.get_priest_data(spec)
 /run UIErrorsFrame:Clear()
     ]]
     macros['y'] = [[
-/startattack
-/use Cleave
+/use [help,@mouseover]Dispel Magic;[@player]Dispel Magic
     ]]
     macros['shift-y'] = [[
+/use [help,@mouseover]Cure Disease;[@player]Cure Disease
+    ]]
+    macros['alt-y'] = [[
+/use [@mouseover]Mass Dispel
+    ]]
+    macros['u'] = [[
 /use Shoot
 ]]
     macros['alt-d'] = [[
@@ -248,8 +251,11 @@ function MB.get_priest_data(spec)
     macros['shift-g'] = [[
 /use Smite
     ]]
+    macros['alt-g'] = [[
+/use Holy Fire
+    ]]
     macros['h'] = [[
-/use Ressurection
+/use Consume Magic
 ]]
     macros['shift-h'] = [[
 /use Mana Tap
@@ -287,6 +293,9 @@ function MB.get_priest_data(spec)
     ]]
     macros['v'] = [[
 /use [nomod,harm,@mouseover][nomod,harm][mod:shift,@focus]Silence
+    ]]
+    macros['alt-v'] = [[
+/use [help,@mouseover]Fear Ward;[@player]Fear Ward
     ]]
     macros['b'] = [[
 /use 13

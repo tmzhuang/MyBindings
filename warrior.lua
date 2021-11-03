@@ -39,7 +39,7 @@ function MB.get_warrior_data(spec)
         MH = "The Decapitator"
     elseif spec == 'pvp' then
         MH = "Fool's Bane"
-        DW1 = "Fool's Bane"
+        DW1 = "World Breaker"
         TWOHAND = "Stormherald"
         SHIELD = "The Fel Barrier"
     end

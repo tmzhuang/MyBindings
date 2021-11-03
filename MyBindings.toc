@@ -3,6 +3,7 @@
 ## Notes: Autoloads my bindings and macros
 ## Author: Kapitol
 ## Version: 0.1
+## SavedVariablesPerCharacter: MyBindingsSpec
 
 utils.lua
 print.lua
