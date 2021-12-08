@@ -34,72 +34,72 @@ local function clear_keys()
     for _, mod in pairs({'none', 'shift-', 'alt-'}) do
         for _, key in pairs(base_keys) do
             if mod == 'none' then
-                --print(string.upper(key))
+                --MB.Print(string.upper(key))
                 SetBinding(string.upper(key))
             else
-                --print(string.upper(mod..key))
+                --MB.Print(string.upper(mod..key))
                 SetBinding(string.upper(mod..key))
             end
         end
     end
-    print('Cleared previous bindings.')
+    MB.Print('Cleared previous bindings.')
 end
 
 local function bind_keys(spells, items, macros, percharacter_macros)
     clear_keys()
     local ok
-    --print('binding spells')
+    --MB.Print('binding spells')
     for key, spell in pairs(spells) do
         ok = SetBindingSpell(string.upper(key), spell)
-        --print(key, spell, ok)
+        --MB.Print(key, spell, ok)
     end
 
     for key, item in pairs(items) do
         ok = SetBindingItem(string.upper(key), item)
-        --print(key, item, ok)
+        --MB.Print(key, item, ok)
     end
 
     for key, text in pairs(macros) do
         local name = get_macro_name(key)
         ok = SetBindingMacro(string.upper(key), name)
-        --print(key, name, ok)
+        --MB.Print(key, name, ok)
     end
 
     for key, text in pairs(percharacter_macros) do
         local name = get_macro_name(key)
         ok = SetBindingMacro(string.upper(key), name)
-        --print(key, name, ok)
+        --MB.Print(key, name, ok)
     end
 end
 
 local function bind_profile(spec)
     local class = string.lower(UnitClass('player'))
-    print('Binding profile...', class, spec)
+    MB.Print('Binding profile...', class, spec)
     fname = string.format('get_%s_data', class)
     if class == 'mage' then
         data_f = MB.get_mage_data
     elseif class == 'warrior' then
         data_f = MB.get_warrior_data
     elseif class == 'priest' then
-        --print('Before data_f')
+        --MB.Print('Before data_f')
         data_f = MB.get_priest_data
-        --print('After data_f')
+        --MB.Print('After data_f')
     end
     if data_f then 
-        print('Getting bind data...')
+        MB.Print('Getting bind data...')
         spells, items, macros, unbound_macros, perCharacter_macros = data_f(spec)
-        print('Syncing macros...')
-        --print('Data fetched.')
+        MB.Print('Syncing macros...')
+        --MB.Print('Data fetched.')
         sync_macros(macros, 1)
-        --print('Macros synced.')
+        --MB.Print('Macros synced.')
         sync_macros(perCharacter_macros, 1, true)
-        --print('PerCharacter macros synced.')
+        --MB.Print('PerCharacter macros synced.')
         sync_macros(unbound_macros, 2)
-        --print('unbound macros synced.')
-        print('Binding keys...')
+        --MB.Print('unbound macros synced.')
+        MB.Print('Binding keys...')
         bind_keys(spells, items, macros, perCharacter_macros)
-        --print('keys bound.')
-        print('Done!')
+        --MB.Print('keys bound.')
+        MB.Print('Done!')
     end
 end
 
@@ -133,8 +133,8 @@ function MB.run_command(argstr)
         MyBindingsSpec = spec
     end
     local class = string.lower(UnitClass('player'))
-    --print('DEBUG: class is', class)
-    --print('DEBUG: spec is', spec)
+    --MB.Print('DEBUG: class is', class)
+    --MB.Print('DEBUG: spec is', spec)
     bind_profile(spec)
     save_bindings()
 end
@@ -146,6 +146,6 @@ local function eventHandler(self, event, ...)
         MyBindingsSpec = 'dps'
     end
     bind_profile(MyBindingsSpec)
-    print('MyBindings: Commands loaded!')
+    MB.Print('MyBindings: Commands loaded!')
 end
 frame:SetScript("OnEvent", eventHandler);

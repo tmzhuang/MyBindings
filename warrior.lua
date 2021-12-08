@@ -24,24 +24,19 @@ function MB.get_warrior_data(spec)
     local DW2 = ''
     local TWOHAND = ''
     local MH = '' 
-    local SHIELD = ''
+    local SHIELD = "Merciless Gladiator's Shield Wall"
     if spec == 'dps' then
-        DW1 = "The Decapitator"
+        MH = "Dragonmaw"
         DW2 = "Spiteblade"
-        TWOHAND = "Gorehowl"
-        SHIELD = "Azure-Shield of Coldarra"
-        MH = "The Decapitator"
+        TWOHAND = "World Breaker"
     elseif spec == 'tank' then
-        DW1 = "The Decapitator"
+        MH = "Dragonmaw"
         DW2 = "Spiteblade"
         TWOHAND = "Gorehowl"
-        SHIELD = "Azure-Shield of Coldarra"
-        MH = "The Decapitator"
     elseif spec == 'pvp' then
-        MH = "Fool's Bane"
+        MH = "Dragonmaw"
         DW1 = "World Breaker"
         TWOHAND = "Stormherald"
-        SHIELD = "The Fel Barrier"
     end
     if not MH then
         MH = DW1
@@ -104,6 +99,15 @@ function MB.get_warrior_data(spec)
 /use Last Stand
 /use Bloodlust Brooch
 /use Abacus of Violent Odds
+]]
+    macros['shift-2'] = [[
+/use Bloodlust Brooch
+/use Abacus of Violent Odds
+/use Blood Fury
+/use Haste Potion
+/use Death Wish
+/use Last Stand
+/use Recklessness
 ]]
     macros['3'] = [[
 /use Blood Fury

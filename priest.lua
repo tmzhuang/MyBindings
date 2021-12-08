@@ -102,15 +102,10 @@ function MB.get_priest_data(spec)
 /use Mighty Rage Potion
 ]]
     macros['2'] = [[
-/use Death Wish
-/use Last Stand
-/use Bloodlust Brooch
-/use Abacus of Violent Odds
+/use Inner Focus
 ]]
     macros['3'] = [[
 /use Arcane Torrent
-/use Bloodlust Brooch
-/use Abacus of Violent Odds
 ]]
     macros['shift-3'] = [[
 /use [stance:1] Retaliation
@@ -118,7 +113,7 @@ function MB.get_priest_data(spec)
 /use [stance:3] Recklessness
 ]]
     macros['4'] = [[
-/use Mind Blast
+/use Smite
 ]]
     macros['5'] = [[
 /use [nomod] Shackle Undead; [mod:shift, @focus] Shackle Undead
@@ -189,7 +184,7 @@ function MB.get_priest_data(spec)
 /use Mind Soothe
     ]], MH, SHIELD)
     macros['e'] = [[
-/use [dead,help,@mouseover]Ressurection;[help,@mouseover]Flash Heal;[@player]Flash Heal
+/use [help,@mouseover]Flash Heal;[@player]Flash Heal
     ]]
     macros['alt-e'] = [[
 /use Challenging Shout
@@ -232,7 +227,7 @@ function MB.get_priest_data(spec)
 /use [@mouseover]Mass Dispel
     ]]
     macros['u'] = [[
-/use Shoot
+/use !Shoot
 ]]
     macros['alt-d'] = [[
 /use [stance:2][nomod,harm,@mouseover][nomod,harm]Taunt
@@ -246,13 +241,13 @@ function MB.get_priest_data(spec)
 /use Demoralizing Shout
     ]]
     macros['g'] = [[
-/use Mind Flay
+/use Smite
 ]]
     macros['shift-g'] = [[
-/use Smite
+/use Holy Fire
     ]]
     macros['alt-g'] = [[
-/use Holy Fire
+/use Mind Blast
     ]]
     macros['h'] = [[
 /use Consume Magic
