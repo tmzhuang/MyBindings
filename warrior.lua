@@ -121,8 +121,12 @@ function MB.get_warrior_data(spec)
 ]]
     macros['4'] = [[
 /startattack
-/use [nomod]Slam
-/use [mod:shift]Heroic Strike
+/use Slam
+]]
+    macros['shift-4'] = [[
+/startattack
+/use Heroic Strike
+/stopcasting
 ]]
     macros['5'] = [[
 /stopattack
@@ -243,6 +247,7 @@ function MB.get_warrior_data(spec)
     macros['y'] = [[
 /startattack
 /use Cleave
+/stopcasting
     ]]
     macros['alt-d'] = [[
 /use [stance:2][nomod,harm,@mouseover][nomod,harm]Taunt
