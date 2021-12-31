@@ -28,14 +28,15 @@ function MB.get_warrior_data(spec)
     if spec == 'dps' then
         MH = "Dragonmaw"
         DW2 = "Spiteblade"
-        TWOHAND = "World Breaker"
+        --TWOHAND = "World Breaker"
+        TWOHAND = "Gorehowl"
     elseif spec == 'tank' then
         MH = "Dragonmaw"
         DW2 = "Spiteblade"
         TWOHAND = "Gorehowl"
     elseif spec == 'pvp' then
         MH = "Dragonmaw"
-        DW1 = "World Breaker"
+        DW1 = "Gorehowl"
         TWOHAND = "Stormherald"
     end
     if not MH then
